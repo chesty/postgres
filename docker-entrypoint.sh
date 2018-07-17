@@ -155,6 +155,11 @@ if [ "$1" = 'postgres' ]; then
 					;;
 				*.sql)    echo "$0: running $f"; "${psql[@]}" -f "$f"; echo ;;
 				*.sql.gz) echo "$0: running $f"; gunzip -c "$f" | "${psql[@]}"; echo ;;
+				postgresql.conf)
+					echo "copying $f to $PGDATA"
+					cp "/docker-entrypoint-initdb.d/$f" "$PGDATA/$f"
+					echo
+					;; 
 				*)        echo "$0: ignoring $f" ;;
 			esac
 			echo
